@@ -45,6 +45,10 @@ cd "$BUILD_DIR"
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
 poetry export -f requirements.txt --without-hashes | sed 's/^-e //' > requirements.txt
 
+log "Export requirements-test.txt from Poetry"
+# this will produce duplicates of non-dev dependencies
+poetry export -f requirements.txt --without-hashes --dev | sed 's/^-e //' > requirements-test.txt
+
 RUNTIME_FILE="runtime.txt"
 
 log "Export Python version from Poetry to Heroku $RUNTIME_FILE file"
